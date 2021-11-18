@@ -42,8 +42,8 @@ variable "name" {
 
 variable "chain" {
   type        = string
-  description = "The name of the blockchain to use, mainnet and ropsten are the only valid options."
-  default     = "ropsten"
+  description = "The name of the blockchain to use, eth-mainnet, eth-ropsten, polygon-mainnet, and polygon-mumbai are the only valid options."
+  default     = "polygon-mumbai"
 }
 
 variable "bcsurl" {

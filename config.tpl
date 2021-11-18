@@ -17,7 +17,7 @@ chmod 755 /usr/local/bin/masq
 mkdir /home/ubuntu/masq
 chmod 755 /home/ubuntu/masq
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-arr=( $(curl -s https://x2kse3k3sg.execute-api.us-east-1.amazonaws.com/dev/nodes | jq -r '.[].descriptor') )
+arr=( $(curl -s https://x2kse3k3sg.execute-api.us-east-1.amazonaws.com/dev/nodes/${chain} | jq -r '.[].descriptor') )
 printf -v joined '%s,' "$${arr[@]}"
 echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
 echo "blockchain-service-url=\"${bcsurl}\"" >> /home/ubuntu/masq/config.toml
@@ -56,7 +56,7 @@ echo "WantedBy=multi-user.target" >> /etc/systemd/system/MASQNode.service
 systemctl enable MASQNode.service
 systemctl start MASQNode.service
 sleep 2s
-sudo chown ubuntu:ubuntu /home/ubuntu/.local/share/MASQ/ropsten
+sudo chown ubuntu:ubuntu /home/ubuntu/.local/share/MASQ/"${chain}"
 sleep 5s
 /usr/local/bin/masq set-password "${dbpass}"
 /usr/local/bin/masq recover-wallets --consuming-path "m/44'/60'/0'/0/0" --db-password "${dbpass}" --mnemonic-phrase "${mnemonic}" --earning-path "m/44'/60'/0'/0/0"
