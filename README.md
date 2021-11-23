@@ -5,7 +5,7 @@ This module's purpose is to automatically deploy an EC2 to AWS and have it confi
 We assume you have some working knowledge of Terraform to consume this module.
 ```HCL
 module "masq_node" {
-    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v1.0.3"
+    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v1.0.4"
     mnemonic = "Red Orange Yellow Green Blue Indigo Violet"
 }
 ```
