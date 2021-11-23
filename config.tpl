@@ -17,7 +17,7 @@ chmod 755 /usr/local/bin/masq
 mkdir /home/ubuntu/masq
 chmod 755 /home/ubuntu/masq
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
-arr=( $(curl -s https://x2kse3k3sg.execute-api.us-east-1.amazonaws.com/dev/nodes/${chain} | jq -r '.[].descriptor') )
+arr=( $(curl -s https://dev.api.masq.ai/nodes/${chain} | jq -r '.[].descriptor') )
 printf -v joined '%s,' "$${arr[@]}"
 echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
 echo "blockchain-service-url=\"${bcsurl}\"" >> /home/ubuntu/masq/config.toml
