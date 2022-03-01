@@ -63,6 +63,14 @@ resource "aws_security_group" "allow_masq" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
+  ingress {
+    description      = "ssh"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -117,10 +125,13 @@ resource "aws_instance" "masq_node" {
     dbpass           = var.dbpass
     dnsservers       = var.dnsservers
     earnwallet       = var.earnwallet
+    downloadurl      = var.downloadurl
     gasprice         = var.gasprice
     conkey           = var.conkey
     mnemonic         = var.mnemonic
     centralLogging   = var.centralLogging
+    centralNighbors     = var.centralNighbors
+    customnNighbors     = var.customnNighbors
     agent_config     = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
   })
 }

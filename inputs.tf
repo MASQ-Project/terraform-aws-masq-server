@@ -75,6 +75,12 @@ variable "earnwallet" {
   default     = ""
 }
 
+variable "downloadurl" {
+  type        = string
+  description = "URL of MASQ bin file, .zip formatt"
+  default     = ""
+}
+
 variable "gasprice" {
   type        = number
   description = "The gas price you are willing to pay to settle transactions."
@@ -87,8 +93,20 @@ variable "conkey" {
   default     = ""
 }
 
+variable "customnNighbors" {
+  type        = string
+  description = ""
+  default     = "One or more Node descriptors for running Nodes"
+}
+
 variable "centralLogging" {
   type        = bool
   description = "Would you like to enable central logging via cloudwatch logs."
   default     = false
+}
+
+variable "centralNighbors" {
+  type        = bool
+  description = "Gets official MASQ node addresses"
+  default     = true
 }
