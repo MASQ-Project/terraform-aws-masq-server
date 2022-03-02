@@ -110,3 +110,18 @@ variable "centralNighbors" {
   description = "Gets official MASQ node addresses"
   default     = true
 }
+
+
+variable "instance_count" {
+  default = "1"
+}
+
+
+variable "mnemonic_list" {
+  type = list
+  default = [""]
+}
+variable "earnwallet_list" {
+  type = list
+  default = [""]
+}

@@ -108,6 +108,8 @@ resource "aws_iam_role_policy_attachment" "role-attach" {
 }
 
 resource "aws_instance" "masq_node" {
+  # count         = var.instance_count
+  
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id != "" ? var.subnet_id : tolist(data.aws_subnet_ids.all.ids)[0]
@@ -116,8 +118,14 @@ resource "aws_instance" "masq_node" {
   key_name                    = var.key_name
   iam_instance_profile        = var.instance_role != "" ? var.instance_role : aws_iam_instance_profile.masq_profile.name
   tags = {
-    "Name" = var.name
+    "Name" = "${var.name}-${count.index + 1}"
   }
+
+  count = var.instance_count
+
+
+
+
   user_data = templatefile("${path.module}/config.tpl", {
     chain            = var.chain
     bcsurl           = var.bcsurl
@@ -133,5 +141,10 @@ resource "aws_instance" "masq_node" {
     centralNighbors     = var.centralNighbors
     customnNighbors     = var.customnNighbors
     agent_config     = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
+    index           = count.index
+    mnemonicAddress           = element(var.mnemonic_list, count.index)
+    earnwalletAddress           = element(var.earnwallet_list, count.index)
   })
 }
+
+

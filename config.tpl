@@ -5,6 +5,11 @@ apt install -y jq awscli python zip curl tmux
 echo "Finished Updateing" >> /home/ubuntu/testCentral.md
 echo "${centralLogging}" >> /home/ubuntu/testCentral.md
 echo "${centralNighbors}" >> /home/ubuntu/testCentral.md
+echo "index: ${index}" >> /home/ubuntu/testCentral.md
+echo "mnemonicAddress: ${mnemonicAddress}" >> /home/ubuntu/testCentral.md
+echo "earnwalletAddress: ${earnwalletAddress}" >> /home/ubuntu/testCentral.md
+
+
 
 
 if [ "${centralLogging}" = true ]
@@ -69,13 +74,9 @@ then
     echo "neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
 fi
 
-
-
-
-
 echo "4" >> /home/ubuntu/testCentral.md
 
-#echo "consuming-private-key=\"${conkey}\"" >> /home/ubuntu/masq/config.toml
+
 chown ubuntu:ubuntu /home/ubuntu/masq/config.toml
 chmod 755 /home/ubuntu/masq/config.toml
 echo "[Unit]" >> /etc/systemd/system/MASQNode.service
@@ -95,12 +96,10 @@ echo "[Install]" >> /etc/systemd/system/MASQNode.service
 echo "WantedBy=multi-user.target" >> /etc/systemd/system/MASQNode.service
 systemctl enable MASQNode.service
 systemctl start MASQNode.service
-#sleep 2s
-#sudo chown ubuntu:ubuntu /home/ubuntu/.local/share/MASQ/"${chain}" # No Longer needed with --data-directory
 sleep 5s
 /usr/local/bin/masq set-password "${dbpass}"
 #/usr/local/bin/masq recover-wallets --consuming-path "m/44'/60'/0'/0/0" --db-password "${dbpass}" --mnemonic-phrase "${mnemonic}" --earning-path "m/44'/60'/0'/0/0" #
-/usr/local/bin/masq recover-wallets --consuming-path "m/44'/60'/0'/0/1" --db-password "${dbpass}" --mnemonic-phrase "${mnemonic}" --earning-address "${earnwallet}"
+/usr/local/bin/masq recover-wallets --consuming-path "m/44'/60'/0'/0/1" --db-password "${dbpass}" --mnemonic-phrase "${mnemonicAddress}" --earning-address "${earnwalletAddress}"
 /usr/local/bin/masq shutdown
 sleep 2s
 systemctl stop MASQNode.service
