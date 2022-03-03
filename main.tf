@@ -108,8 +108,7 @@ resource "aws_iam_role_policy_attachment" "role-attach" {
 }
 
 resource "aws_instance" "masq_node" {
-  # count         = var.instance_count
-  
+  count                       = var.instance_count
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = var.instance_type
   subnet_id                   = var.subnet_id != "" ? var.subnet_id : tolist(data.aws_subnet_ids.all.ids)[0]
@@ -121,29 +120,24 @@ resource "aws_instance" "masq_node" {
     "Name" = "${var.name}-${count.index + 1}"
   }
 
-  count = var.instance_count
-
-
-
-
   user_data = templatefile("${path.module}/config.tpl", {
-    chain            = var.chain
-    bcsurl           = var.bcsurl
-    clandestine_port = var.clandestine_port != null ? var.clandestine_port : random_integer.port.result
-    dbpass           = var.dbpass
-    dnsservers       = var.dnsservers
-    earnwallet       = var.earnwallet
-    downloadurl      = var.downloadurl
-    gasprice         = var.gasprice
-    conkey           = var.conkey
-    mnemonic         = var.mnemonic
-    centralLogging   = var.centralLogging
-    centralNighbors     = var.centralNighbors
-    customnNighbors     = var.customnNighbors
-    agent_config     = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
-    index           = count.index
-    mnemonicAddress           = element(var.mnemonic_list, count.index)
-    earnwalletAddress           = element(var.earnwallet_list, count.index)
+    chain              = var.chain
+    bcsurl             = var.bcsurl
+    clandestine_port   = var.clandestine_port != null ? var.clandestine_port : random_integer.port.result
+    dbpass             = var.dbpass
+    dnsservers         = var.dnsservers
+    earnwallet         = var.earnwallet
+    downloadurl        = var.downloadurl
+    gasprice           = var.gasprice
+    conkey             = var.conkey
+    mnemonic           = var.mnemonic
+    centralLogging     = var.centralLogging
+    centralNighbors    = var.centralNighbors
+    customnNighbors    = var.customnNighbors
+    agent_config       = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
+    index              = count.index
+    mnemonicAddress    = element(var.mnemonic_list, count.index)
+    earnwalletAddress  = element(var.earnwallet_list, count.index)
   })
 }
 

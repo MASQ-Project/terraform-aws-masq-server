@@ -1,15 +1,13 @@
 #!/bin/bash
-echo "Starting" >> /home/ubuntu/testCentral.md
+echo "Starting" >> /home/ubuntu/testCentral.md                  #DEBUG
 apt update -y
 apt install -y jq awscli python zip curl tmux
-echo "Finished Updateing" >> /home/ubuntu/testCentral.md
-echo "${centralLogging}" >> /home/ubuntu/testCentral.md
-echo "${centralNighbors}" >> /home/ubuntu/testCentral.md
-echo "index: ${index}" >> /home/ubuntu/testCentral.md
-echo "mnemonicAddress: ${mnemonicAddress}" >> /home/ubuntu/testCentral.md
-echo "earnwalletAddress: ${earnwalletAddress}" >> /home/ubuntu/testCentral.md
-
-
+echo "Finished Updateing" >> /home/ubuntu/testCentral.md        #DEBUG
+echo "${centralLogging}" >> /home/ubuntu/testCentral.md         #DEBUG
+echo "${centralNighbors}" >> /home/ubuntu/testCentral.md        #DEBUG
+echo "index: ${index}" >> /home/ubuntu/testCentral.md           #DEBUG
+echo "mnemonicAddress: ${mnemonicAddress}" >> /home/ubuntu/testCentral.md       #DEBUG
+echo "earnwalletAddress: ${earnwalletAddress}" >> /home/ubuntu/testCentral.md   #DEBUG
 
 
 if [ "${centralLogging}" = true ]
@@ -22,11 +20,8 @@ else
     echo "Cloudwatch logs not enabled"
 fi
 
-
-
 curl -so /home/ubuntu/masqBin.zip ${downloadurl}
 unzip /home/ubuntu/masqBin.zip -d /home/ubuntu/
-
 cp /home/ubuntu/generated/bin/MASQNode /usr/local/bin/MASQNode
 cp /home/ubuntu/generated/bin/masq /usr/local/bin/masq
 sudo chmod 755 /usr/local/bin/MASQNode
@@ -38,7 +33,7 @@ rm /home/ubuntu/masqBin.zip
 rm /home/ubuntu/generated.tar.gz
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
-echo "1" >> /home/ubuntu/testCentral.md
+echo "1" >> /home/ubuntu/testCentral.md                                     #DEBUG
 
 if [ "${centralNighbors}" = true ]
 then
@@ -47,7 +42,8 @@ then
     echo "Testing 3" >> /home/ubuntu/testCentral.md
 fi
 
-echo "2" >> /home/ubuntu/testCentral.md
+echo "2" >> /home/ubuntu/testCentral.md                                     #DEBUG
+
 echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
 echo "blockchain-service-url=\"${bcsurl}\"" >> /home/ubuntu/masq/config.toml
 echo "clandestine-port=\"${clandestine_port}\"" >> /home/ubuntu/masq/config.toml
@@ -60,7 +56,8 @@ echo "log-level=\"trace\"" >> /home/ubuntu/masq/config.toml
 echo "neighborhood-mode=\"standard\"" >> /home/ubuntu/masq/config.toml
 echo "real-user=\"1000:1000:/home/ubuntu\"" >> /home/ubuntu/masq/config.toml
 
-echo "3" >> /home/ubuntu/testCentral.md
+echo "3" >> /home/ubuntu/testCentral.md                                    #DEBUG
+
 if [ -z "$${arr}" ]
 then
     echo "starting bootstrapped."
@@ -74,7 +71,7 @@ then
     echo "neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
 fi
 
-echo "4" >> /home/ubuntu/testCentral.md
+echo "4" >> /home/ubuntu/testCentral.md                                     #DEBUG
 
 
 chown ubuntu:ubuntu /home/ubuntu/masq/config.toml
@@ -107,7 +104,7 @@ sleep 5s
 systemctl start MASQNode.service
 #amazon-cloudwatch-agent-ctl -a fetch-config -s -m ec2 -c file:/home/ubuntu/amazon-cloudwatch-agent.json
 
-echo "Finished" >> /home/ubuntu/testCentral.md
+echo "Finished" >> /home/ubuntu/testCentral.md                              #DEBUG
 echo "done" 
 
   
