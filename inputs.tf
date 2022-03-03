@@ -111,17 +111,19 @@ variable "centralNighbors" {
   default     = true
 }
 
-
 variable "instance_count" {
-  default = "1"
+  type        = number
+  description = "Number of instances to create"
+  default = 1
 }
 
-
 variable "mnemonic_list" {
-  type = list
-  default = [""]
+  type        = list
+  description = "Array list of mnemonic"
+  default     = [""]
 }
 variable "earnwallet_list" {
   type = list
+  description = "Array list of earnwallet"
   default = [""]
 }
