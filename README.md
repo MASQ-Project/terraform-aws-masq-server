@@ -9,6 +9,8 @@ We assume you have some working knowledge of Terraform to consume this module.
 module "masq_node" {
     source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v1.0.4"
     mnemonic = "Red Orange Yellow Green Blue Indigo Violet"
+
+
 }
 ```
 <!-- BEGIN_TF_DOCS -->
@@ -43,6 +45,14 @@ No requirements.
 | <a name="input_name"></a> [name](#input\_name) | The name you would like to give the instance.  This is purely for use inside of AWS, it won't show on the MASQ Network. | `string` | `"MASQNode"` | no |
 | <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | The subnet that you want the instance to deploy to, if you don't supply one, it will grab one from your VPC automatically. | `string` | `""` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The VPC ID if you are not using default VPC. | `string` | `""` | no |
+| <a name="input_customnNighbors"></a> [customnNighbors](#input\_customnNighbors) | Node Descriptors for connecting to the MASQ network. Separate with a ','. | `string` | `""` | no |
+| <a name="input_centralNighbors"></a> [centralNighbors](#input\_centralNighbors) | Gets official MASQ Node Descriptors. | `bool` | `false` | no |
+| <a name="input_instance_count"></a> [instance\_count](#input\_instance\_count) | Number of instances to create. | `number` | `1` | no |
+| <a name="input_mnemonic_list"></a> [mnemonic\_list](#input\_mnemonic\_list) | List of mnemonic. | `list` | `[""]` | no |
+| <a name="input_earnwallet_list"></a> [earnwallet\_list](#input\_earnwallet\_list) | List of earnwallets. | `list` | `[""]` | no |
+| <a name="input_downloadurl"></a> [downloadurl](#input\_downloadurl) | URL of MASQ bin file, .zip formatt. | `string` | `""` | no |
+
+
 
 ## Outputs
 

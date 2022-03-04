@@ -75,12 +75,6 @@ variable "earnwallet" {
   default     = ""
 }
 
-variable "downloadurl" {
-  type        = string
-  description = "URL of MASQ bin file, .zip formatt"
-  default     = ""
-}
-
 variable "gasprice" {
   type        = number
   description = "The gas price you are willing to pay to settle transactions."
@@ -93,21 +87,22 @@ variable "conkey" {
   default     = ""
 }
 
-variable "customnNighbors" {
-  type        = string
-  description = ""
-  default     = "One or more Node descriptors for running Nodes"
-}
-
 variable "centralLogging" {
   type        = bool
   description = "Would you like to enable central logging via cloudwatch logs."
   default     = false
 }
 
+variable "customnNighbors" {
+  type        = string
+  description = ""
+  default     = "Node Descriptors for connecting to the MASQ network. Separate with a ','"
+}
+
+
 variable "centralNighbors" {
   type        = bool
-  description = "Gets official MASQ node addresses"
+  description = "Gets official MASQ Node Descriptors"
   default     = true
 }
 
@@ -119,11 +114,18 @@ variable "instance_count" {
 
 variable "mnemonic_list" {
   type        = list
-  description = "Array list of mnemonic"
+  description = "List of mnemonic"
   default     = [""]
 }
 variable "earnwallet_list" {
   type = list
   description = "Array list of earnwallet"
   default = [""]
+}
+
+
+variable "downloadurl" {
+  type        = string
+  description = "URL of MASQ bin file, .zip formatt"
+  default     = ""
 }
