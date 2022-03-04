@@ -118,7 +118,7 @@ resource "aws_instance" "masq_node" {
   iam_instance_profile        = var.instance_role != "" ? var.instance_role : aws_iam_instance_profile.masq_profile.name
   tags = {
     "Name" = "${var.name}-${count.index + 1}"
-  }
+  }  
 
   user_data = templatefile("${path.module}/config.tpl", {
     chain              = var.chain
