@@ -1,6 +1,8 @@
 ## Description
 This module's purpose is to automatically deploy an EC2 to AWS and have it configure itself to be a node in the MASQ Network (masq.ai)
 
+NOTE: This is still in Development
+
 #TODO: NEEDS Updating
 
 ## Usage
