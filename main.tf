@@ -2,7 +2,7 @@ data "aws_vpc" "default" {
   default = var.vpc_id != "" ? false : true
   id      = var.vpc_id != "" ? var.vpc_id : ""
 }
-
+ 
 data "aws_subnet_ids" "all" {
   vpc_id = data.aws_vpc.default.id
 }
@@ -126,18 +126,24 @@ resource "aws_instance" "masq_node" {
     clandestine_port   = var.clandestine_port != null ? var.clandestine_port : random_integer.port.result
     dbpass             = var.dbpass
     dnsservers         = var.dnsservers
-    earnwallet         = var.earnwallet
     downloadurl        = var.downloadurl
     gasprice           = var.gasprice
-    conkey             = var.conkey
-    mnemonic           = var.mnemonic
+    paymentThresholds  = var.paymentThresholds
+    ratePack           = var.ratePack
+    scanIntervals      = var.scanIntervals
     centralLogging     = var.centralLogging
     centralNighbors    = var.centralNighbors
     customnNighbors    = var.customnNighbors
-    agent_config       = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
+    pushDescriptor     = var.pushDescriptor
+    cycleDerivation    = var.cycleDerivation
+    derivationIndex    = var.derivationIndex
+    masterNode         = var.masterNode
+    randomNighbors     = var.randomNighbors
     index              = count.index
     mnemonicAddress    = element(var.mnemonic_list, count.index)
     earnwalletAddress  = element(var.earnwallet_list, count.index)
+    earnwalletAddressindex  = "${length(var.earnwallet_list)}"
+    agent_config       = base64encode(file("${path.module}/amazon-cloudwatch-agent.json"))
   })
 }
 
