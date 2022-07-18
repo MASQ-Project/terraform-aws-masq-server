@@ -54,6 +54,11 @@ variable "gasprice" {
   description = "The gas price you are willing to pay to settle transactions."
   default     = 50
 }
+variable "loglevel" {
+  type        = string
+  description = "MASQNode Log Level - [off, error, warn, info, debug, trace]"
+  default     = "trace"
+}
 variable "paymentThresholds" { 
   type        = string
   description = "These are parameters that define thresholds to determine when and how much to pay other Nodes for routing"

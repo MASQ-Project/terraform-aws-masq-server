@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "Starting" >> /home/ubuntu/debug.txt
+echo "loglevel ${loglevel}" >> /home/ubuntu/debug.txt
 
 apt update -y
 apt install -y jq awscli python zip curl tmux
@@ -18,18 +19,26 @@ fi
 curl -so /home/ubuntu/masqBin.zip ${downloadurl}
 unzip /home/ubuntu/masqBin.zip -d /home/ubuntu/
 
-mv /home/ubuntu/MASQNode /usr/local/bin/MASQNode
-mv /home/ubuntu/masq /usr/local/bin/masq
-# mv /home/ubuntu/generated/bin/MASQNode /usr/local/bin/MASQNode
-# mv /home/ubuntu/generated/bin/masq /usr/local/bin/masq
+
+if [[ -d "/home/ubuntu/generated" ]]
+then
+    mv /home/ubuntu/generated/bin/MASQNode /usr/local/bin/MASQNode
+    mv /home/ubuntu/generated/bin/masq /usr/local/bin/masq
+else
+    mv /home/ubuntu/MASQNode /usr/local/bin/MASQNode
+    mv /home/ubuntu/masq /usr/local/bin/masq
+fi
+
+
+
 
 sudo chmod 755 /usr/local/bin/MASQNode
 sudo chmod 755 /usr/local/bin/masq
 mkdir /home/ubuntu/masq
-chmod 755 /home/ubuntu/masq
+chmod 755 /home/ubuntu/masq/
 rm -rf /home/ubuntu/generated/
-rm /home/ubuntu/masqBin.zip
 rm /home/ubuntu/generated.tar.gz
+rm /home/ubuntu/masqBin.zip
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
 echo "1" >> /home/ubuntu/debug.txt                                     #DEBUG
@@ -41,19 +50,26 @@ then
 fi
 
 echo "2" >> /home/ubuntu/debug.txt                                     #DEBUG
+
+
+# >>> ZERO-HOP config.toml
 echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
 echo "blockchain-service-url=\"${bcsurl}\"" >> /home/ubuntu/masq/config.toml
 echo "clandestine-port=\"${clandestine_port}\"" >> /home/ubuntu/masq/config.toml
 echo "db-password=\"${dbpass}\"" >> /home/ubuntu/masq/config.toml
 echo "dns-servers=\"${dnsservers}\"" >> /home/ubuntu/masq/config.toml
 echo "gas-price=\"${gasprice}\"" >> /home/ubuntu/masq/config.toml
-echo "ip=\"$${ip}\"" >> /home/ubuntu/masq/config.toml
-echo "log-level=\"trace\"" >> /home/ubuntu/masq/config.toml
-echo "neighborhood-mode=\"standard\"" >> /home/ubuntu/masq/config.toml
+#echo "#ip=\"$${ip}\"" >> /home/ubuntu/masq/config.toml
+echo "log-level=\"${loglevel}\"" >> /home/ubuntu/masq/config.toml
+echo "neighborhood-mode=\"zero-hop\"" >> /home/ubuntu/masq/config.toml
+# echo "neighborhood-mode=\"standard\"" >> /home/ubuntu/masq/config.toml
 echo "real-user=\"1000:1000:/home/ubuntu\"" >> /home/ubuntu/masq/config.toml
-if [ "${paymentThresholds}" != "" ]; then echo "payment-thresholds=\"${paymentThresholds}\"" >> /home/ubuntu/masq/config.toml ; fi
-if [ "${scanIntervals}" != "" ]; then echo "scan-intervals=\"${scanIntervals}\"" >> /home/ubuntu/masq/config.toml ; fi
-if [ "${ratePack}" != "" ]; then echo "rate-pack=\"${ratePack}\"" >> /home/ubuntu/masq/config.toml ; fi
+#if [ "${paymentThresholds}" != "" ]; then echo "payment-thresholds=\"${paymentThresholds}\"" >> /home/ubuntu/masq/config.toml ; fi
+#if [ "${scanIntervals}" != "" ]; then echo "scan-intervals=\"${scanIntervals}\"" >> /home/ubuntu/masq/config.toml ; fi
+#if [ "${ratePack}" != "" ]; then echo "rate-pack=\"${ratePack}\"" >> /home/ubuntu/masq/config.toml ; fi
+
+
+
 echo "3" >> /home/ubuntu/debug.txt                                    #DEBUG
 
 
@@ -110,6 +126,9 @@ echo "[Install]" >> /etc/systemd/system/MASQNode.service
 echo "WantedBy=multi-user.target" >> /etc/systemd/system/MASQNode.service
 
 
+
+
+
 echo "5" >> /home/ubuntu/debug.txt                                     #DEBUG
 
 # >> Sleep timer on Random from 1 - 31 secconds
@@ -142,6 +161,28 @@ fi
 /usr/local/bin/masq shutdown
 sleep 2s
 systemctl stop MASQNode.service
+sleep 5s
+
+echo "Swaping Config.toml" >> /home/ubuntu/debug.txt                              #DEBUG
+mv /home/ubuntu/masq/config.toml /home/ubuntu/masq/config.del
+
+echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
+echo "blockchain-service-url=\"${bcsurl}\"" >> /home/ubuntu/masq/config.toml
+echo "clandestine-port=\"${clandestine_port}\"" >> /home/ubuntu/masq/config.toml
+echo "db-password=\"${dbpass}\"" >> /home/ubuntu/masq/config.toml
+echo "dns-servers=\"${dnsservers}\"" >> /home/ubuntu/masq/config.toml
+echo "gas-price=\"${gasprice}\"" >> /home/ubuntu/masq/config.toml
+echo "ip=\"$${ip}\"" >> /home/ubuntu/masq/config.toml
+echo "log-level=\"${loglevel}\"" >> /home/ubuntu/masq/config.toml
+echo "neighborhood-mode=\"standard\"" >> /home/ubuntu/masq/config.toml
+echo "real-user=\"1000:1000:/home/ubuntu\"" >> /home/ubuntu/masq/config.toml
+if [ "${paymentThresholds}" != "" ]; then echo "payment-thresholds=\"${paymentThresholds}\"" >> /home/ubuntu/masq/config.toml ; fi
+if [ "${scanIntervals}" != "" ]; then echo "scan-intervals=\"${scanIntervals}\"" >> /home/ubuntu/masq/config.toml ; fi
+if [ "${ratePack}" != "" ]; then echo "rate-pack=\"${ratePack}\"" >> /home/ubuntu/masq/config.toml ; fi
+
+
+echo "New Config.toml" >> /home/ubuntu/debug.txt                              #DEBUG
+
 sleep 5s
 systemctl start MASQNode.service
 #amazon-cloudwatch-agent-ctl -a fetch-config -s -m ec2 -c file:/home/ubuntu/amazon-cloudwatch-agent.json

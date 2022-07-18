@@ -128,6 +128,7 @@ resource "aws_instance" "masq_node" {
     dnsservers         = var.dnsservers
     downloadurl        = var.downloadurl
     gasprice           = var.gasprice
+    loglevel           = var.loglevel
     paymentThresholds  = var.paymentThresholds
     ratePack           = var.ratePack
     scanIntervals      = var.scanIntervals

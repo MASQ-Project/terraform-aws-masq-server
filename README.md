@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 module "masq_node" {
-    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v1.0.5"
+    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v2.1.0"
     mnemonic_list     = [ "Red Orange Yellow Green Blue Indigo Violet" ]
     downloadurl       = "<masq.zip-URL>"
     derivationIndex   = 0
@@ -54,6 +54,7 @@ No requirements.
 | <a name="input_dnsservers"></a> [dnsservers](#input\_dnsservers) | The DNS servers to use to resolve URLs for requests. | `string` | `"1.0.0.1,1.1.1.1,8.8.8.8,9.9.9.9"` | no |
 | <a name="input_earnwallet"></a> [earnwallet](#input\_earnwallet) | The wallet address used for storing payments for services. | `string` | `""` | no |
 | <a name="input_gasprice"></a> [gasprice](#input\_gasprice) | The gas price you are willing to pay to settle transactions. | `number` | `50` | no |
+| <a name="input_loglevel"></a> [loglevel](#input\_loglevel) | MASQNode Log Level - [off, error, warn, info, debug, trace]. | `string` | `"trace"` | no |
 | <a name="input_paymentThresholds"></a> [paymentThresholds](#input\_paymentThresholds) | These are parameters that define thresholds to determine when and how much to pay other Nodes for routing "1000000000\|1200\|1200\|500000000\|21600\|500000000" | `string` | `""` | no |
 | <a name="input_ratePack"></a> [ratePack](#input\_ratePack) | These four parameters specify your rates that your Node will use for charging other Nodes for your provided services "1\|10\|2\|20"  | `string` | `""` | no |
 | <a name="input_scanIntervals"></a> [scanIntervals](#input\_scanIntervals) | These three intervals describe the length of three different scan cycles running "600\|600\|600" | `string` | `""` | no |
