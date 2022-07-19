@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 module "masq_node" {
-    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v2.2.0"
+    source = "github.com/MASQ-Project/terraform-aws-masq-server?ref=v2.3.0"
     mnemonic_list     = [ "Red Orange Yellow Green Blue Indigo Violet" ]
     downloadurl       = "<masq.zip-URL>"
     derivationIndex   = 0
