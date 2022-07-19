@@ -29,9 +29,6 @@ else
     mv /home/ubuntu/masq /usr/local/bin/masq
 fi
 
-
-
-
 sudo chmod 755 /usr/local/bin/MASQNode
 sudo chmod 755 /usr/local/bin/masq
 mkdir /home/ubuntu/masq
@@ -41,16 +38,11 @@ rm /home/ubuntu/generated.tar.gz
 rm /home/ubuntu/masqBin.zip
 ip=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
-echo "1" >> /home/ubuntu/debug.txt                                     #DEBUG
-
 if [ "${centralNighbors}" = true ]
 then
     arr=( $(curl -s https://dev.api.masq.ai/nodes/${chain} | jq -r '.[].descriptor') )
     printf -v joined '%s,' "$${arr[@]}"
 fi
-
-echo "2" >> /home/ubuntu/debug.txt                                     #DEBUG
-
 
 # >>> ZERO-HOP config.toml
 echo "chain=\"${chain}\"" >> /home/ubuntu/masq/config.toml
@@ -72,41 +64,6 @@ echo "real-user=\"1000:1000:/home/ubuntu\"" >> /home/ubuntu/masq/config.toml
 
 echo "3" >> /home/ubuntu/debug.txt                                    #DEBUG
 
-
-if [ "${masterNode}" = true ]
-then
-    echo "#neighbors=\"\"" >> /home/ubuntu/masq/config.toml 
-else
-    if [ "${randomNighbors}" = true ]
-    then
-    descript=$(curl -s https://dev.api.masq.ai/randomnode/)
-    echo "randomNighbors = TRUE" >> /home/ubuntu/debug.txt
-    echo "randomNighbors = $${descript}" >> /home/ubuntu/debug.txt
-    echo "neighbors=\"$${descript}\"" >> /home/ubuntu/masq/config.toml
-    else
-        if [ -z "$${arr}" ]
-        then
-            echo "starting bootstrapped."
-        else
-            echo "neighbors=\"$${joined%,}\"" >> /home/ubuntu/masq/config.toml
-        fi
-        if [ "${centralNighbors}" = false ]
-        then
-            if [ "${customnNighbors}" != "" ]
-            then
-                echo "neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
-            else
-                echo "#neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
-            fi
-        fi
-    fi
-fi
-
-
-
-echo "4" >> /home/ubuntu/debug.txt                                     #DEBUG
-
-
 chown ubuntu:ubuntu /home/ubuntu/masq/config.toml
 chmod 755 /home/ubuntu/masq/config.toml
 echo "[Unit]" >> /etc/systemd/system/MASQNode.service
@@ -125,11 +82,7 @@ echo "" >> /etc/systemd/system/MASQNode.service
 echo "[Install]" >> /etc/systemd/system/MASQNode.service
 echo "WantedBy=multi-user.target" >> /etc/systemd/system/MASQNode.service
 
-
-
-
-
-echo "5" >> /home/ubuntu/debug.txt                                     #DEBUG
+echo "4" >> /home/ubuntu/debug.txt                                     #DEBUG
 
 # >> Sleep timer on Random from 1 - 31 secconds
 echo "Sleep..." >> /home/ubuntu/debug.txt
@@ -179,6 +132,35 @@ echo "real-user=\"1000:1000:/home/ubuntu\"" >> /home/ubuntu/masq/config.toml
 if [ "${paymentThresholds}" != "" ]; then echo "payment-thresholds=\"${paymentThresholds}\"" >> /home/ubuntu/masq/config.toml ; fi
 if [ "${scanIntervals}" != "" ]; then echo "scan-intervals=\"${scanIntervals}\"" >> /home/ubuntu/masq/config.toml ; fi
 if [ "${ratePack}" != "" ]; then echo "rate-pack=\"${ratePack}\"" >> /home/ubuntu/masq/config.toml ; fi
+if [ "${masterNode}" = true ]
+then
+    echo "#neighbors=\"\"" >> /home/ubuntu/masq/config.toml 
+else
+    if [ "${randomNighbors}" = true ]
+    then
+    descript=$(curl -s https://dev.api.masq.ai/randomnode/)
+    echo "randomNighbors = TRUE" >> /home/ubuntu/debug.txt
+    echo "randomNighbors = $${descript}" >> /home/ubuntu/debug.txt
+    echo "neighbors=\"$${descript}\"" >> /home/ubuntu/masq/config.toml
+    else
+        if [ -z "$${arr}" ]
+        then
+            echo "starting bootstrapped."
+        else
+            echo "neighbors=\"$${joined%,}\"" >> /home/ubuntu/masq/config.toml
+        fi
+        if [ "${centralNighbors}" = false ]
+        then
+            if [ "${customnNighbors}" != "" ]
+            then
+                echo "neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
+            else
+                echo "#neighbors=\"${customnNighbors}\"" >> /home/ubuntu/masq/config.toml
+            fi
+        fi
+    fi
+fi
+
 
 
 echo "New Config.toml" >> /home/ubuntu/debug.txt                              #DEBUG
