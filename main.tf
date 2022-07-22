@@ -140,6 +140,9 @@ resource "aws_instance" "masq_node" {
     derivationIndex    = var.derivationIndex
     masterNode         = var.masterNode
     randomNighbors     = var.randomNighbors
+    waitTime           = var.waitTime
+    nodeFinderChain    = var.nodeFinderChain
+    nodeFinderSuburb   = var.nodeFinderSuburb
     index              = count.index
     mnemonicAddress    = element(var.mnemonic_list, count.index)
     earnwalletAddress  = element(var.earnwallet_list, count.index)

@@ -87,7 +87,7 @@ variable "customnNighbors" {
 variable "centralNighbors" {
   type        = bool
   description = "Gets official MASQ Node Descriptors"
-  default     = true
+  default     = false
 }
 variable "instance_count" {
   type        = number
@@ -139,4 +139,19 @@ variable "randomNighbors" {
   type        = bool
   description = "Will pull a random Nighbor from NodeFinder"
   default     = false
+}
+variable "waitTime" {   
+  type        = string
+  description = "Time Range between Nodes connecting"
+  default     = "30-120"
+}
+variable "nodeFinderChain" {   
+  type        = string
+  description = "Configure NodeFinders chain straing, 'polygon-mumbai', "
+  default     = "polygon-mumbai"
+}
+variable "nodeFinderSuburb" {   
+  type        = string
+  description = "Configure NodeFinders Suburb straing. "
+  default     = ""
 }

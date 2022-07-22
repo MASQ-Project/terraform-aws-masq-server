@@ -69,6 +69,11 @@ No requirements.
 | <a name="input_cycleDerivation"></a> [cycleDerivation](#input\_cycleDerivation) | Cycles Wallet Derivation path by 1 for each node Created. | `bool` | `false` | no |
 | <a name="input_derivationIndex"></a> [derivationIndex](#input\_derivationIndex) | Sets Derivation Index Start. | `number` | `0` | no |
 | <a name="input_randomNighbors"></a> [randomNighbors](#input\_randomNighbors) | Will pull a random Nighbor from NodeFinder | `bool` | `false` | no |
+| <a name="input_waitTime"></a> [waitTime](#input\_waitTime) | Time Range between Nodes connecting | `string` | `"30-120"` | no |
+| <a name="input_nodeFinderChain"></a> [nodeFinderChain](#input\_nodeFinderChain) | Configure NodeFinders chain straing, 'polygon-mumbai',  | `string` | `"polygon-mumbai"` | no |
+| <a name="input_nodeFinderSuburb"></a> [nodeFinderSuburb](#input\_nodeFinderSuburb) | Configure NodeFinders Suburb straing.   | `string` | `""` | no |
+
+
 
 ## Outputs
 
